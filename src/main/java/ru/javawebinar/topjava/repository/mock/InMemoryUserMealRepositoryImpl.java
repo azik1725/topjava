@@ -1,6 +1,8 @@
-package ru.javawebinar.topjava.repository;
+package ru.javawebinar.topjava.repository.mock;
 
+import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.model.UserMeal;
+import ru.javawebinar.topjava.repository.UserMealRepository;
 import ru.javawebinar.topjava.util.UserMealsUtil;
 
 import java.util.Collection;
@@ -16,13 +18,13 @@ public class InMemoryUserMealRepositoryImpl implements UserMealRepository {
     private Map<Integer, UserMeal> repository = new ConcurrentHashMap<>();
     private AtomicInteger counter = new AtomicInteger(0);
 
-    {
+    /*{
         UserMealsUtil.MEAL_LIST.forEach(this::save);
     }
-
+*/
     @Override
-    public UserMeal save(UserMeal userMeal) {
-        if (userMeal.isNew()) {
+    public UserMeal save(UserMeal userMeal,User user) {
+        if (userMeal.isNew() && (userMeal.getId().equals(user.getId()))) {
             userMeal.setId(counter.incrementAndGet());
         }
         return repository.put(userMeal.getId(), userMeal);
